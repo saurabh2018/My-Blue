@@ -1,0 +1,188 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+  <modelVersion>4.0.0</modelVersion>
+  <groupId>BCBC_MyBlue</groupId>
+  <artifactId>BCBC_MyBlue</artifactId>
+  <version>0.0.1-SNAPSHOT</version>
+  <packaging>jar</packaging>
+  
+  <properties>
+		<mavenCompilerPluginVersion>3.1</mavenCompilerPluginVersion>
+		<mavenCompilerConfigVersion>1.8</mavenCompilerConfigVersion>
+		<pdfBoxVersion>2.0.3</pdfBoxVersion>
+		<bouncyCastleVersion>1.44</bouncyCastleVersion>
+		<seleniumVersion>2.45.0</seleniumVersion>
+		<poiVersion>3.15-beta1</poiVersion>
+		<junitVersion>4.12</junitVersion>
+		<slf4jVersion>1.7.21</slf4jVersion>
+		<testNgVersion>6.8.21</testNgVersion>
+	</properties>
+	
+	<build>
+		 <resources>
+  			<resource>
+	      		<directory>src/test/resources</directory>
+		  		<includes>
+		  		<include>**/*</include>
+		  		</includes>
+	  		</resource>
+  		</resources>
+		<plugins>
+			<plugin>
+				<artifactId>maven-compiler-plugin</artifactId>
+				<version>${mavenCompilerPluginVersion}</version>
+				<configuration>
+				<source>${mavenCompilerConfigVersion}</source>
+				<target>${mavenCompilerConfigVersion}</target>
+				</configuration>
+			</plugin>
+			<plugin>
+	          <groupId>org.apache.maven.plugins</groupId>
+	          <artifactId>maven-surefire-plugin</artifactId>
+	          <version>2.20</version>
+        	</plugin>
+        	<plugin>
+			  <groupId>org.apache.maven.plugins</groupId>
+			  <artifactId>maven-jar-plugin</artifactId>
+			  <version>2.6</version>
+			  <executions>
+			    <execution>
+			      <goals>
+			        <goal>test-jar</goal>
+			      </goals>
+			    </execution>
+			  </executions>
+			</plugin>
+			<plugin>
+			  <groupId>org.apache.maven.plugins</groupId>
+			  <artifactId>maven-dependency-plugin</artifactId>
+			  <version>2.10</version>
+			  <executions>
+			    <execution>
+			      <id>copy-dependencies</id>
+			      <phase>package</phase>
+			      <goals>
+			        <goal>copy-dependencies</goal>
+			      </goals>
+			      <configuration>
+			        <outputDirectory>${project.build.directory}/dependency-jars/</outputDirectory>
+			      </configuration>
+			    </execution>
+			  </executions>
+			</plugin>
+			<plugin>
+			  <artifactId>maven-assembly-plugin</artifactId>
+			  <version>2.5.4</version>
+			  <executions>
+			    <execution>
+			      <phase>package</phase>
+			      <goals>
+			        <goal>single</goal>
+			      </goals>
+			      <configuration>
+			        <finalName>zip-with-dependencies</finalName>
+			        <appendAssemblyId>false</appendAssemblyId>
+			        <descriptors>
+			          <descriptor>src/main/assembly/zip.xml</descriptor>
+			        </descriptors>
+			      </configuration>
+			    </execution>
+			  </executions>
+			</plugin>
+		</plugins>
+	</build>
+
+
+	<dependencies>
+
+		<dependency>
+			<groupId>org.bouncycastle</groupId>
+			<artifactId>bcprov-jdk15</artifactId>
+			<version>${bouncyCastleVersion}</version>
+		</dependency>
+		
+		<dependency>
+			<groupId>org.bouncycastle</groupId>
+			<artifactId>bcmail-jdk15</artifactId>
+			<version>${bouncyCastleVersion}</version>
+		</dependency>
+
+		<dependency>
+			<groupId>org.seleniumhq.selenium</groupId>
+			<artifactId>selenium-java</artifactId>
+			<version>${seleniumVersion}</version>
+		</dependency>
+
+		<dependency>
+			<groupId>org.apache.poi</groupId>
+			<artifactId>poi</artifactId>
+			<version>${poiVersion}</version>
+		</dependency>
+
+		<dependency>
+			<groupId>org.apache.poi</groupId>
+			<artifactId>poi-ooxml</artifactId>
+			<version>${poiVersion}</version>
+		</dependency>
+
+		<dependency>
+			<groupId>org.apache.poi</groupId>
+			<artifactId>poi-ooxml-schemas</artifactId>
+			<version>${poiVersion}</version>
+		</dependency>
+		
+		<dependency>
+  			 <groupId>org.testng</groupId>
+ 			 <artifactId>testng</artifactId>
+ 			 <version>${testNgVersion}</version>
+		</dependency>
+
+	    <dependency>
+			<groupId>junit</groupId>
+			<artifactId>junit</artifactId>
+			<version>${junitVersion}</version>
+		</dependency>
+
+		<dependency>
+			<groupId>org.slf4j</groupId>
+			<artifactId>slf4j-api</artifactId>
+			<version>${slf4jVersion}</version>
+		</dependency>
+
+		<!-- Binding for System.out -->
+		<dependency>
+			<groupId>org.slf4j</groupId>
+			<artifactId>slf4j-simple</artifactId>
+			<version>${slf4jVersion}</version>
+		</dependency>
+		
+		<!-- https://mvnrepository.com/artifact/org.jsoup/jsoup -->
+		<dependency>
+		    <groupId>org.jsoup</groupId>
+		    <artifactId>jsoup</artifactId>
+		    <version>1.8.3</version>
+		</dependency>
+
+		<dependency>
+			<groupId>de.redsix</groupId>
+			<artifactId>pdfcompare</artifactId>
+			<version>1.1.9</version>
+		</dependency>
+	
+		<dependency>
+		    <groupId>io.appium</groupId>
+		    <artifactId>java-client</artifactId>
+		    <version>3.4.0</version>
+		</dependency>
+	</dependencies>
+	
+	<reporting>
+	    <plugins>
+	      <plugin>
+	        <groupId>org.codehaus.mojo</groupId>
+	        <artifactId>findbugs-maven-plugin</artifactId>
+	        <version>3.0.5-SNAPSHOT</version>
+	      </plugin>
+	    </plugins>
+	  </reporting>
+  
+</project>
